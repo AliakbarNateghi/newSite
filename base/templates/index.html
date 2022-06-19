@@ -1,0 +1,48 @@
+{% extends 'main.html' %}
+{% block content %}
+
+    <div class="products">
+
+              <ul class="toplinks">
+                  <li><a class="active" href="#">صفحه اصلی</a></li>
+                  <li><a href="#cart">تکمیل خرید</a></li>
+                  <li><a href="#pendingOrder">سفارش جاری</a></li>
+                  <li><a href="#orderHistory">سفارش گذشته</a></li>
+                  <li><a href="#logout">خروج</a></li>
+                  <li style="float:right"><a class="active" href="{% url "aboutus" %}">درباره ما</a></li>
+              </ul>
+
+{% regroup pros by kind as kind_list %}
+    {% for x in kind_list %}
+        <form class="bigForm">
+            <fieldset class="bigProd">
+                <legend><h3>{{ x.grouper }}</h3></legend>
+            {% for y in x.list %}
+                <div class="raw">
+                    <div class="column">
+                            <form>
+                                <fieldset class="prod">
+                                    <legend><p style="color: #04AA6D">{{ y.name }}</p></legend>
+                                    <img class="center" alt="{{ y.name }}" src="{{ y.image.url }}">
+                                    <ul  class="ulproduct" style="list-style: none;">
+                                        <li><p>{{ y.price }}تومان</p></li>
+                                        <li><p>{{ y.description }}</p></li>
+{#                                        {% if y.availability %}#}
+{#                                            <li class="blink_me"></li>#}
+{#                                        {% endif %}#}
+                                        <li><p><blink>{{ y.availability }}</blink></p></li>
+                                        <li style="margin-left: 55%"><a href="#"><i class="fa-solid fa-circle-plus" style="color: #04AA6D"></i></a>
+                                    </ul>
+                                </fieldset>
+                            </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </fieldset>
+    </form>
+{% endfor %}
+</div>
+
+{% endblock content %}
+
+
