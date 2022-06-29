@@ -1,0 +1,42 @@
+{% extends 'main.html' %}
+{% block content %}
+
+    <div class="products">
+
+              <ul class="toplinks">
+                  <li><a class="active" href="{% url "pro" %}">صفحه اصلی</a></li>
+                  <li><a href="{% url "cart" %}">تکمیل خرید</a></li>
+{#                  <li><a href="#pendingOrder">سفارش جاری</a></li>#}
+{#                  <li><a href="#orderHistory">سفارش گذشته</a></li>#}
+                  <li><a href="{% url "logout" %}">خروج</a></li>
+                  <li style="float:right"><a class="active" href="{% url "aboutus" %}">درباره ما</a></li>
+              </ul>
+
+{% regroup pros by kind as kind_list %}
+    {% for x in kind_list %}
+        <form class="bigForm">
+            <fieldset class="bigProd">
+                <legend><h3>{{ x.grouper }}</h3></legend>
+            {% for y in x.list %}
+                <div class="raw">
+                    <div class="column">
+                            <form>
+                                <fieldset class="prod">
+                                    <legend><p style="color: #04AA6D">{{ y.name }}</p></legend>
+                                    <img class="center" alt="{{ y.name }}" src="{{ y.image.url }}">
+                                    <p>{{ y.price }}</p>
+                                    <p><input type="number" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;" placeholder="0" id="quantity" name="quantity" min="1" max="15"></p>
+                                    <a href="cart.html"><i class="fa-solid fa-circle-plus" style="color: #04AA6D"></i></a>
+                                </fieldset>
+                            </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </fieldset>
+    </form>
+{% endfor %}
+</div>
+
+{% endblock content %}
+
+
