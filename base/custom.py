@@ -14,3 +14,17 @@ def Cart(customer):
         cart = Order.objects.get(customer=customer)
         cart.save()
     return cart
+
+
+def update_total(order):
+    """
+        Updates total price of order.
+    """
+    if not isinstance(order, Order):
+        raise Http404("{} is not an instance of Order.".format(order))
+    else:
+        items = order.items.all()
+        order.total = 0
+        for item in items:
+            order.total += item.price
+        order.save()

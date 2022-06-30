@@ -20,13 +20,14 @@
             {% for y in x.list %}
                 <div class="raw">
                     <div class="column">
-                            <form>
+                            <form action="{% url "additem" %}" method="post">{% csrf_token %}
                                 <fieldset class="prod">
                                     <legend><p style="color: #04AA6D">{{ y.name }}</p></legend>
                                     <img class="center" alt="{{ y.name }}" src="{{ y.image.url }}">
                                     <p>{{ y.price }}</p>
                                     <p><input type="number" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;" placeholder="0" id="quantity" name="quantity" min="1" max="15"></p>
-                                    <a href="cart.html"><i class="fa-solid fa-circle-plus" style="color: #04AA6D"></i></a>
+{#                                    <a href="cart.html"><i class="fa-solid fa-circle-plus" style="color: #04AA6D"></i></a>#}
+                                    <input type="submit" style="color: #04AA6D">
                                 </fieldset>
                             </form>
                     </div>

@@ -1,9 +1,15 @@
 {% extends 'main.html' %}
 {% block content %}
 
-
-
 <h1>Cart</h1>
+
+{% for item in Cart %}
+    <form>
+        <p>{{ item.name }}</p>
+        <p>{{ item.price }}</p>
+    </form>
+{% endfor %}
+
 
 
 
