@@ -5,7 +5,7 @@ from django.template import loader
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from .models import pro, Order, OrderItem
-from .custom import Cart, update_total
+from .custom import Cart, update_total, cart_count
 from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
@@ -59,6 +59,54 @@ class ProList(LoginRequiredMixin, ListView):
         return context
 
 
+@login_required(redirect_field_name='index')
+def additem(request):
+    """
+    Add orders to cart.
+    """
+    if request.method == 'POST':
+        customer = request.user
+        name = request.POST.get('name', 'بستنی')
+        kind = request.POST.get('kind', 'آیس پک')
+        # qty = int(request.POST['qty'])
+        price = int(request.POST.get('price', '0'))
+        order = Cart(customer)
+
+        # for i in range(qty):
+        newitem = OrderItem(
+                name=name,
+                kind=kind,
+                price=price,
+                order=order)
+        newitem.save()
+        update_total(order)
+
+    return HttpResponseRedirect(reverse_lazy('pro'))
+
+
+class cart(LoginRequiredMixin, ListView):
+    model = OrderItem
+    context_object_name = 'items'
+    template_name = 'cart.html'
+
+
+# @login_required(redirect_field_name='index')
+# def cart_view(request):
+#     """
+#         View items in one's cart.
+#     """
+#     customer = request.user
+#     order = Cart(customer)
+#     context = {
+#         'message': None,
+#         'order': order,
+#         'cart': order.items.all(),
+#         # 'cartcount': cart_count(customer),
+#         'total': order.total
+#     }
+#     return render(request, 'cart.html', context)
+
+
 class aboutus(LoginRequiredMixin, ListView):
     template_name = 'aboutus.html'
     model = pro
@@ -70,27 +118,5 @@ class cart(LoginRequiredMixin, ListView):
     success_url = reverse_lazy('pro')
 
 
-@login_required(redirect_field_name='index')
-def additem(request):
-    """
-    Add orders to cart.
-    """
-    if request.method == 'POST':
-        customer = request.user
-        name = request.POST['name']
-        kind = request.POST['kind']
-        qty = int(request.POST['qty'])
-        price = int(request.POST['price'])
-        order = Cart(customer)
 
-        for i in range(qty):
-            newitem = OrderItem(
-                name=name,
-                kind=kind,
-                price=price,
-                order=order)
-            newitem.save()
-            update_total(order)
-
-    return HttpResponseRedirect(reverse_lazy('pro'))
 

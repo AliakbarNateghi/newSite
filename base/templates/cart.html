@@ -3,10 +3,12 @@
 
 <h1>Cart</h1>
 
-{% for item in Cart %}
+{% for item in items %}
     <form>
-        <p>{{ item.name }}</p>
+        <p>{{ item.order }}</p>
         <p>{{ item.price }}</p>
+        <p>{{ item.name }}</p>
+        <p>{{ item.kind }}</p>
     </form>
 {% endfor %}
 

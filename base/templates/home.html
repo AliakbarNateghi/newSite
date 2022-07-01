@@ -14,20 +14,30 @@
 
 {% regroup pros by kind as kind_list %}
     {% for x in kind_list %}
-        <form class="bigForm">
+        <form class="bigForm" action="{% url "additem" %}" method="post">{% csrf_token %}
             <fieldset class="bigProd">
-                <legend><h3>{{ x.grouper }}</h3></legend>
+                <legend><h3><select><option>{{ x.grouper }}</option></select></h3></legend>
             {% for y in x.list %}
                 <div class="raw">
                     <div class="column">
                             <form action="{% url "additem" %}" method="post">{% csrf_token %}
                                 <fieldset class="prod">
-                                    <legend><p style="color: #04AA6D">{{ y.name }}</p></legend>
+                                    <legend><select>
+                                        <option value="{{ y.name }}" name="{% url "additem" %}">{{ y.name }}</option>
+                                    </select></legend>
+                                    <br>
                                     <img class="center" alt="{{ y.name }}" src="{{ y.image.url }}">
-                                    <p>{{ y.price }}</p>
-                                    <p><input type="number" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;" placeholder="0" id="quantity" name="quantity" min="1" max="15"></p>
-{#                                    <a href="cart.html"><i class="fa-solid fa-circle-plus" style="color: #04AA6D"></i></a>#}
+                                    <select>
+                                        <option value="{{ y.price }}" name="{% url "additem" %}">{{ y.price }}</option>
+                                    </select>
+                                    <br>
                                     <input type="submit" style="color: #04AA6D">
+{#                                    <legend><p style="color: #04AA6D">{{ y.name }}</p></legend>#}
+{#                                    <img class="center" alt="{{ y.name }}" src="{{ y.image.url }}">#}
+{#                                    <p>{{ y.price }}</p>#}
+{#                                    <p><input type="number" style="box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;" placeholder="0" id="quantity" name="quantity" min="1" max="15"></p>#}
+{#                                    <a href="cart.html"><i class="fa-solid fa-circle-plus" style="color: #04AA6D"></i></a>#}
+{#                                    <input type="submit" style="color: #04AA6D">#}
                                 </fieldset>
                             </form>
                     </div>

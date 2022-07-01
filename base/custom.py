@@ -28,3 +28,7 @@ def update_total(order):
         for item in items:
             order.total += item.price
         order.save()
+
+
+def cart_count():
+    pass
